@@ -11,5 +11,5 @@ View Thread
 @endcomponent
 
 Thanks,
-Forum
+Liberum
 @endcomponent

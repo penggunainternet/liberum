@@ -16,6 +16,7 @@ class Update extends Component
     public $replyNewBody;
     public $author;
     public $createdAt;
+    public $reply;
 
     protected $listeners = ['deleteReply'];
 
@@ -25,6 +26,7 @@ class Update extends Component
         $this->replyOrigBody = $reply->body();
         $this->author = $reply->author();
         $this->createdAt = $reply->created_at;
+        $this->reply = $reply->load('images');
         $this->initialize($reply);
     }
 
@@ -36,6 +38,7 @@ class Update extends Component
 
         $reply->body = $this->replyNewBody;
         $reply->save();
+        $this->reply = $reply;
         $this->initialize($reply);
     }
 
