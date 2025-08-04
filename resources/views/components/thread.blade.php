@@ -56,13 +56,13 @@
                 {{-- Likes Count --}}
                 <div class="flex items-center space-x-2">
                     <x-heroicon-o-thumb-up class="w-5 h-5 text-red-300" />
-                    <span class="text-xs text-gray-500">{{ count($thread->likes()) }}</span>
+                    <span class="text-xs text-gray-500">{{ $thread->likesRelation()->count() }}</span>
                 </div>
 
                 {{-- Comments Count --}}
                 <div class="flex items-center space-x-2">
                     <x-heroicon-o-chat-alt class="w-4 h-4 text-green-300" />
-                    <span class="text-xs text-gray-500">{{ count($thread->replies()) }} komentar</span>
+                    <span class="text-xs text-gray-500">{{ $thread->repliesRelation()->count() }} komentar</span>
                 </div>
 
                 {{-- Views Count --}}
