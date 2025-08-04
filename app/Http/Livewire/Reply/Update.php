@@ -69,10 +69,8 @@ class Update extends Component
         // Handle new image uploads
         if (!empty($this->images)) {
             foreach ($this->images as $image) {
-                $reply->addMedia($image->getRealPath())
-                    ->usingName($image->getClientOriginalName())
-                    ->usingFileName($image->getClientOriginalName())
-                    ->toMediaCollection();
+                // image dari livewire upload sudah berupa UploadedFile
+                $reply->addMedia($image);
             }
             $this->images = [];
         }
