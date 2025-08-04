@@ -9,7 +9,7 @@ trait HasTags
 {
     public function tags()
     {
-        return $this->tagsRelation;
+        return $this->tagsRelation();
     }
 
     public function syncTags(array $tags)

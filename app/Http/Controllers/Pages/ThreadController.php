@@ -102,7 +102,7 @@ class ThreadController extends Controller
     {
         $this->authorize(ThreadPolicy::UPDATE, $thread);
 
-        $oldTags = $thread->tags()->pluck('id')->toArray();
+        $oldTags = $thread->tags()->pluck('tags.id')->toArray();
         $selectedCategory = $thread->category;
 
         return view('pages.threads.edit', [
