@@ -1,6 +1,6 @@
-# Liberum - Forum Laravel
+# Liberum - Forum Literasi
 
-Forum diskusi modern dengan fitur upload gambar dan real-time interaction.
+Forum diskusi literasi modern dengan fitur upload gambar dan interaksi real-time untuk komunitas pecinta buku.
 
 ## Persyaratan
 
