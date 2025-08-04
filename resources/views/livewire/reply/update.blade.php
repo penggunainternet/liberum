@@ -91,17 +91,87 @@
         </div>
 
         <div x-show="editReply">
+            <form wire:submit.prevent="updateReply" enctype="multipart/form-data">
+                <div class="space-y-4">
+                    {{-- Reply Text --}}
+                    <textarea class="w-full bg-gray-100 border-none shadow-inner focus:ring-blue-500 resize-none"
+                              rows="3"
+                              name="replyNewBody"
+                              wire:model.lazy="replyNewBody"
+                              x-ref="textInput"
+                              placeholder="Edit your reply..."></textarea>
 
-            <form wire:submit.prevent="updateReply">
-                <input class="w-full bg-gray-100 border-none shadow-inner focus:ring-blue-500" type="text" name="replyNewBody" wire:model.lazy="replyNewBody" x-ref="textInput" x-on:keydown.enter="editReply = false" x-on:keydown.escape="editReply = false">
+                    {{-- Current Images --}}
+                    @php
+                        $currentImages = $reply->images->count() > 0 ? $reply->images : $reply->media->where('mime_type', 'LIKE', 'image/%');
+                    @endphp
 
-                <div class="mt-2 space-x-3 text-sm">
-                    <button type="button" class="text-green-400" x-on:click="editReply = false">
-                        Cancel
-                    </button>
-                    <button type="submit" class="text-red-400" x-on:click="editReply = false">
-                        Save
-                    </button>
+                    @if($currentImages->count() > 0)
+                        <div class="space-y-2">
+                            <h6 class="text-sm font-medium text-gray-700">Gambar Saat Ini:</h6>
+                            <div class="grid grid-cols-3 gap-2">
+                                @foreach($currentImages as $image)
+                                    <div class="relative">
+                                        <img src="{{ $image->url }}"
+                                             alt="{{ $image->original_filename }}"
+                                             class="w-full h-20 object-cover rounded border">
+                                        <button type="button"
+                                                wire:click="removeImage({{ $image->id }})"
+                                                class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600">
+                                            ×
+                                        </button>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    {{-- New Image Upload --}}
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Tambah Gambar Baru:</label>
+                        <input type="file"
+                               wire:model="images"
+                               multiple
+                               accept="image/*"
+                               class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                        @error('images.*')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    {{-- Preview New Images --}}
+                    @if($images)
+                        <div class="space-y-2">
+                            <h6 class="text-sm font-medium text-gray-700">Preview Gambar Baru:</h6>
+                            <div class="grid grid-cols-3 gap-2">
+                                @foreach($images as $index => $image)
+                                    <div class="relative">
+                                        <img src="{{ $image->temporaryUrl() }}"
+                                             class="w-full h-20 object-cover rounded border">
+                                        <button type="button"
+                                                wire:click="$set('images.{{ $index }}', null)"
+                                                class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600">
+                                            ×
+                                        </button>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    {{-- Action Buttons --}}
+                    <div class="flex space-x-3 text-sm">
+                        <button type="button"
+                                class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                                x-on:click="editReply = false">
+                            Cancel
+                        </button>
+                        <button type="submit"
+                                class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                x-on:click="editReply = false">
+                            Save Changes
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
