@@ -1,1 +1,3 @@
-<img src="{{ asset('img/logo/logo.svg') }}" {{ $attributes }} alt="">
+<div {{ $attributes->merge(['class' => 'flex items-center']) }}>
+    <span class="text-3xl font-bold text-blue-600">Liberum</span>
+</div>
