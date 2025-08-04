@@ -28,7 +28,8 @@ class CreateReply
         return new static(
             $request->body(),
             $request->author(),
-            $request->replyAble()
+            $request->replyAble(),
+            $request->images()
         );
     }
 

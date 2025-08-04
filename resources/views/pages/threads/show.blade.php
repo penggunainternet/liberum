@@ -130,93 +130,10 @@
             </article>
 
             {{-- Replies --}}
-            <div class="mt-6 space-y-5">
-                <h2 class="mb-0 text-sm font-bold uppercase">Komentar</h2>
-                <hr>
-                @foreach($thread->replies() as $reply)
-                <livewire:reply.update :reply="$reply" :wire:key="$reply->id()" />
-                @endforeach
-            </div>
+            <livewire:thread.replies-list :thread="$thread" />
 
             @auth
-            <div class="p-5 space-y-4 bg-white shadow rounded-lg">
-                <h2 class="text-gray-500">Kirim komentar</h2>
-                <x-form action="{{ route('replies.store') }}" enctype="multipart/form-data">
-                    <div>
-                        <input type="text" name="body" class="w-full rounded-md bg-gray-200 border-none shadow-inner focus:ring-blue-400" />
-                        <x-form.error for="body" />
-
-                        <input type="hidden" name="replyable_id" value="{{ $thread->id() }}">
-                        <x-form.error for="replyable_id" />
-                        <input type="hidden" name="replyable_type" value="threads">
-                        <x-form.error for="replyable_type" />
-
-                    </div>
-
-                    {{-- Reply Image Upload --}}
-                    <div x-data="replyImageUpload()" class="space-y-3">
-                        <div class="flex items-center justify-between">
-                            <label class="block text-sm font-medium text-gray-700">
-                                Gambar Reply (Opsional)
-                            </label>
-                            <span class="text-xs text-gray-500">Maks 3 gambar, 10MB total</span>
-                        </div>
-
-                        <input type="file"
-                               x-ref="fileInput"
-                               name="images[]"
-                               multiple
-                               accept="image/*"
-                               @change="handleFiles($event)"
-                               class="hidden">
-
-                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-gray-400 transition-colors cursor-pointer"
-                             @click="$refs.fileInput.click()"
-                             @dragover.prevent="$event.dataTransfer.dropEffect = 'copy'"
-                             @drop.prevent="handleDrop($event)">
-                            <svg class="mx-auto h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                            </svg>
-                            <p class="mt-2 text-sm text-gray-600">
-                                <span class="font-medium text-blue-600">Klik untuk upload</span> atau drag & drop
-                            </p>
-                            <p class="text-xs text-gray-500">PNG, JPG hingga 10MB total</p>
-                        </div>
-
-                        <!-- Image Previews -->
-                        <div x-show="files.length > 0" class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                            <template x-for="(file, index) in files" :key="index">
-                                <div class="relative">
-                                    <img :src="file.preview" :alt="file.name" class="w-full h-24 object-cover rounded border">
-                                    <button type="button"
-                                            @click="removeFile(index)"
-                                            class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600">
-                                        ×
-                                    </button>
-                                    <p class="text-xs text-gray-500 mt-1 truncate" x-text="file.name"></p>
-                                    <p class="text-xs text-gray-400" x-text="formatFileSize(file.size)"></p>
-                                </div>
-                            </template>
-                        </div>
-
-                        <!-- Upload Status -->
-                        <div x-show="error" x-text="error" class="text-red-600 text-sm"></div>
-                        <div x-show="totalSize > 0" class="text-xs text-gray-500">
-                            Total ukuran: <span x-text="formatFileSize(totalSize)"></span>
-                        </div>
-
-                        <x-form.error for="images" />
-                        <x-form.error for="images.*" />
-                    </div>
-
-                    <div class="grid mt-4">
-                        {{-- Button --}}
-                        <x-buttons.primary class="justify-self-end">
-                            {{ __('Kirim') }}
-                        </x-buttons.primary>
-                    </div>
-                </x-form>
-            </div>
+            <livewire:thread.reply-form :thread="$thread" />
             @else
             <div class="flex justify-between p-4 text-gray-700 bg-blue-200 rounded">
                 <h2>Anda harus login terlebih dahulu sebelum mengirim komentar</h2>

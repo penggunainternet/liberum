@@ -25,6 +25,19 @@ final class Reply extends Model
     const TABLE = 'replies';
 
     /**
+     * Boot the model
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Delete all media when reply is deleted
+        static::deleting(function ($reply) {
+            $reply->clearMedia();
+        });
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected $table = self::TABLE;

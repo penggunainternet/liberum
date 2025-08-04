@@ -18,20 +18,30 @@
                     <div class="relative col-span-7 space-y-4">
                          {{-- Avatar --}}
                         <div class="col-span-1">
-                            <x-user.avatar :user="$author" />
+                            @if($author)
+                                <x-user.avatar :user="$author" />
+                            @else
+                                <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
+                                    <span class="text-xs text-gray-600">?</span>
+                                </div>
+                            @endif
                         </div>
                         <p>
                             {{ $replyOrigBody }}
                         </p>
 
                         {{-- Reply Images Gallery --}}
-                        @if($reply->images->count() > 0)
+                        @php
+                            $displayImages = $reply->images->count() > 0 ? $reply->images : $reply->media->where('mime_type', 'LIKE', 'image/%');
+                        @endphp
+
+                        @if($displayImages->count() > 0)
                             <div class="mt-4">
                                 <h5 class="text-xs font-medium text-gray-600 mb-2">
-                                    Gambar Reply ({{ $reply->images->count() }})
+                                    Gambar Reply ({{ $displayImages->count() }})
                                 </h5>
                                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                                    @foreach($reply->images as $image)
+                                    @foreach($displayImages as $image)
                                         <div class="relative group cursor-pointer" onclick="openImageModal('{{ $image->url }}', '{{ $image->original_filename }}')">
                                             <img src="{{ $image->url }}"
                                                  alt="{{ $image->original_filename }}"

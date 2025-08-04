@@ -86,8 +86,14 @@ class ThreadController extends Controller
             ->cooldown($expireAt)
             ->record();
 
-        // Load images and media relations to avoid N+1 queries
-        $thread->load(['images', 'media']);
+        // Load images, media, and replies relations to avoid N+1 queries
+        $thread->load([
+            'images',
+            'media',
+            'repliesRelation' => function($query) {
+                $query->with(['images', 'media', 'authorRelation'])->orderBy('created_at', 'asc');
+            }
+        ]);
 
         return view('pages.threads.show', compact('thread', 'category'));
     }

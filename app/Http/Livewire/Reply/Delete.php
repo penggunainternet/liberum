@@ -23,8 +23,14 @@ class Delete extends Component
     {
         $reply = Reply::findOrFail($this->replyId);
         $this->authorize(ReplyPolicy::DELETE, $reply);
+
+        // Delete reply (will also delete media via model boot hook)
         $reply->delete();
-        $this->emitUp('deleteReply', $this->page);
+
+        // Only emit refresh to update the UI, no redirect needed
+        $this->emit('refreshReplies');
+
+        session()->flash('success', 'Reply berhasil dihapus!');
     }
 
     public function render()

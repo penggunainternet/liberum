@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pages;
 
 use App\Models\Reply;
+use App\Models\Thread;
 use App\Jobs\CreateReply;
 use Illuminate\Http\Request;
 use App\Policies\ReplyPolicy;
@@ -15,14 +16,18 @@ class ReplyController extends Controller
 {
     public function __construct()
     {
-        return $this->middleware([Authenticate::class, EnsureEmailIsVerified::class]);
+        $this->middleware([Authenticate::class, EnsureEmailIsVerified::class]);
     }
 
     public function store(CreateReplyRequest $request)
     {
         $this->authorize(ReplyPolicy::CREATE, Reply::class);
 
-        $this->dispatchSync(CreateReply::fromRequest($request));
+        $reply = $this->dispatchSync(CreateReply::fromRequest($request));
+
+        // Clear any cached relations for the thread
+        $thread = $reply->replyAble();
+        $thread->unsetRelation('repliesRelation');
 
         return back()->with('success', 'Reply Created');
     }
@@ -31,6 +36,11 @@ class ReplyController extends Controller
     {
         $reply = Reply::where('replyable_id', $id)->where('replyable_type', $type)->firstOrFail();
 
-        return redirect()->route('threads.show', [$reply->replyAble()->category->slug(), $reply->replyAble()->slug()]);
+        if ($type === 'threads') {
+            $thread = Thread::find($id);
+            return redirect()->route('threads.show', [$thread->category->slug(), $thread->slug()]);
+        }
+
+        return redirect()->route('threads.index');
     }
 }

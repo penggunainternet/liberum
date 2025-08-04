@@ -9,7 +9,7 @@ trait HasReplies
 {
     public function replies()
     {
-        return $this->repliesRelation;
+        return $this->repliesRelation()->orderBy('created_at', 'asc');
     }
 
     public function latestReplies(int $amount = 5)
