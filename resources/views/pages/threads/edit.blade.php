@@ -4,20 +4,20 @@
         <x-partials.sidenav />
 
         <section class="flex flex-col col-span-3 gap-y-4">
-           
+
              {{-- breadcrumb --}}
              <div class="flex items-center pb-2 overflow-y-auto whitespace-nowrap">
                 <a href="#" class="text-gray-600 dark:text-gray-200">
                     Postingan
                 </a>
-        
+
                 <span class="mx-5 text-gray-500 dark:text-gray-300">
                     <x-heroicon-s-chevron-right class="w-5 h-5" />
                 </span>
-        
+
                 <span class="text-gray-500 dark:text-gray-200 ">
                     {{ $thread->title() }}
-                </span>  
+                </span>
 
                 <span class="mx-4 text-gray-500 dark:text-gray-300">
                     <x-heroicon-s-chevron-right class="w-5 h-5" />
@@ -39,7 +39,7 @@
                                 {{-- Title --}}
                                 <div>
                                     <x-form.label for="title" value="{{ __('Judul') }}" />
-                                    <x-form.input id="title" class="block w-full mt-1" type="text" name="title" :value="$thread->title()" autofocus />
+                                    <x-form.input id="title" class="block w-full mt-1" type="text" name="title" :value="$thread->title()" />
                                     <x-form.error for="title" />
                                 </div>
 
@@ -56,15 +56,18 @@
                                     <x-form.error for="category_id" />
                                 </div>
 
-                               
-                        
+
+
 
                                 {{-- Body --}}
                                 <div>
                                     <x-form.label for="body" value="{{ __('Deskripsi') }}" />
-                                    <x-trix name="body" styling="shadow-inner bg-gray-100 h-56">
-                                        {{ $thread->body() }}
-                                    </x-trix>
+                                    <textarea
+                                        id="body"
+                                        name="body"
+                                        rows="8"
+                                        class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                                        placeholder="Tulis deskripsi thread Anda di sini...">{{ $thread->body() }}</textarea>
                                     <x-form.error for="body" />
                                 </div>
 
@@ -75,11 +78,11 @@
                                         <div class="mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="currentImages">
                                             @foreach($thread->images as $image)
                                                 <div class="relative group" id="image-{{ $image->id }}">
-                                                    <img src="{{ $image->url }}" 
+                                                    <img src="{{ $image->url }}"
                                                          alt="{{ $image->original_filename }}"
                                                          class="w-full h-32 object-cover rounded-lg border border-gray-200">
                                                     <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity rounded-lg flex items-center justify-center">
-                                                        <button type="button" 
+                                                        <button type="button"
                                                                 onclick="removeExistingImage({{ $image->id }})"
                                                                 class="bg-red-500 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600">
                                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -100,10 +103,10 @@
                                 <div>
                                     <x-form.label for="images" value="Tambah Gambar Baru (Opsional)" />
                                     <div class="mt-1">
-                                        <input type="file" 
-                                               name="images[]" 
-                                               id="images" 
-                                               multiple 
+                                        <input type="file"
+                                               name="images[]"
+                                               id="images"
+                                               multiple
                                                accept="image/jpeg,image/png,image/jpg,image/gif,image/webp"
                                                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100"
                                                onchange="previewNewImages(this)">
@@ -116,14 +119,6 @@
 
                                     {{-- New Images Preview --}}
                                     <div id="newImagePreview" class="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" style="display: none;"></div>
-                                </div>
-
-                                {{-- Tags --}}
-                                <div>
-                                    <x-form.label for="tags" value="Tags (Opsional)" />
-                                    <x-form.input id="tags" class="block w-full mt-1" type="text" name="tags" value="{{ $thread->tags->pluck('name')->implode(', ') }}" placeholder="laravel, php, web development" />
-                                    <p class="mt-1 text-xs text-gray-500">Pisahkan dengan koma untuk multiple tags</p>
-                                    <x-form.error for="tags" />
                                 </div>
 
                                 {{-- Button --}}
@@ -141,7 +136,7 @@
     {{-- Image Management Scripts --}}
     <script>
         let removedImageIds = [];
-        
+
         // Remove existing image
         function removeExistingImage(imageId) {
             if (confirm('Apakah Anda yakin ingin menghapus gambar ini?')) {
@@ -150,50 +145,50 @@
                     imageElement.remove();
                     removedImageIds.push(imageId);
                     document.getElementById('removedImages').value = removedImageIds.join(',');
-                    
+
                     // Update image count validation
                     validateImageCount();
                 }
             }
         }
-        
+
         // Preview new images
         function previewNewImages(input) {
             const preview = document.getElementById('newImagePreview');
             const files = input.files;
-            
+
             // Clear previous previews
             preview.innerHTML = '';
-            
+
             if (files.length === 0) {
                 preview.style.display = 'none';
                 return;
             }
-            
+
             // Check total image count (existing + new - removed)
             const currentImageCount = document.querySelectorAll('#currentImages > div').length;
             const totalCount = currentImageCount + files.length;
-            
+
             if (totalCount > 5) {
                 alert(`Maksimal 5 gambar per thread. Saat ini ada ${currentImageCount} gambar. Anda hanya bisa menambah ${5 - currentImageCount} gambar lagi.`);
                 input.value = '';
                 return;
             }
-            
+
             // Check total size limit (15MB)
             let totalSize = 0;
             for (let file of files) {
                 totalSize += file.size;
             }
-            
+
             if (totalSize > 15728640) { // 15MB in bytes
                 alert('Total ukuran gambar baru tidak boleh lebih dari 15MB.');
                 input.value = '';
                 return;
             }
-            
+
             preview.style.display = 'grid';
-            
+
             // Show preview for each new image
             Array.from(files).forEach((file, index) => {
                 if (file.type.startsWith('image/')) {
@@ -202,14 +197,14 @@
                         const div = document.createElement('div');
                         div.className = 'relative group';
                         div.innerHTML = `
-                            <img src="${e.target.result}" 
+                            <img src="${e.target.result}"
                                  class="w-full h-32 object-cover rounded-lg border border-green-200"
                                  alt="Preview ${index + 1}">
                             <div class="absolute top-0 left-0 bg-green-500 text-white text-xs px-2 py-1 rounded-br-lg">
                                 BARU
                             </div>
-                            <button type="button" 
-                                    onclick="removeNewImage(${index})" 
+                            <button type="button"
+                                    onclick="removeNewImage(${index})"
                                     class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 text-xs flex items-center justify-center hover:bg-red-600">
                                 ×
                             </button>
@@ -222,26 +217,26 @@
                 }
             });
         }
-        
+
         function removeNewImage(index) {
             const input = document.getElementById('images');
             const dt = new DataTransfer();
-            
+
             for (let i = 0; i < input.files.length; i++) {
                 if (i !== index) {
                     dt.items.add(input.files[i]);
                 }
             }
-            
+
             input.files = dt.files;
             previewNewImages(input);
         }
-        
+
         function validateImageCount() {
             const currentImageCount = document.querySelectorAll('#currentImages > div').length;
             const newImageInput = document.getElementById('images');
             const maxNewImages = 5 - currentImageCount;
-            
+
             if (maxNewImages <= 0) {
                 newImageInput.disabled = true;
                 newImageInput.parentElement.querySelector('p').textContent = 'Maksimal 5 gambar sudah tercapai. Hapus gambar yang ada untuk menambah yang baru.';
@@ -250,7 +245,7 @@
                 newImageInput.parentElement.querySelector('p').textContent = `Maksimal ${maxNewImages} gambar lagi bisa ditambahkan. Total ukuran maksimal 15MB. Format: JPEG, PNG, JPG, GIF, WebP.`;
             }
         }
-        
+
         function formatFileSize(bytes) {
             if (bytes === 0) return '0 Bytes';
             const k = 1024;
@@ -258,7 +253,7 @@
             const i = Math.floor(Math.log(bytes) / Math.log(k));
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
-        
+
         // Initialize validation on page load
         document.addEventListener('DOMContentLoaded', function() {
             validateImageCount();

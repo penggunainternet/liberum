@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
-use App\Http\Controllers\Pages\TagController;
 use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\ReplyController;
 use App\Http\Controllers\Pages\FollowController;

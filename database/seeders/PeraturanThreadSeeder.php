@@ -63,7 +63,7 @@ class PeraturanThreadSeeder extends Seeder
 <h4>💡 TIPS BERKUALITAS</h4>
 <ul>
 <li>Gunakan judul yang jelas dan deskriptif</li>
-<li>Tambahkan tag yang relevan</li>
+<li>Pilih kategori yang sesuai</li>
 <li>Sertakan cover buku jika memungkinkan</li>
 <li>Berpartisipasi aktif dalam diskusi</li>
 <li>Apresiasi kontribusi member lain dengan like</li>

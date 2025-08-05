@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Pages;
 
 use App\Contracts\ViewsContract;
-use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
 use App\Models\Thread;
 use App\Models\Category;
@@ -44,7 +43,6 @@ class ThreadController extends Controller
     {
         return view('pages.threads.create', [
             'categories'    => Category::all(),
-            'tags'          => Tag::all(),
         ]);
     }
 
@@ -52,23 +50,10 @@ class ThreadController extends Controller
     {
         $images = $request->hasFile('images') ? $request->file('images') : [];
 
-        // Process tags - convert comma-separated string to tag IDs
-        $tagIds = [];
-        if ($request->input('tags')) {
-            $tagNames = array_map('trim', explode(',', $request->input('tags')));
-            foreach ($tagNames as $tagName) {
-                if (!empty($tagName)) {
-                    $tag = Tag::firstOrCreate(['name' => $tagName, 'slug' => \Illuminate\Support\Str::slug($tagName)]);
-                    $tagIds[] = $tag->id;
-                }
-            }
-        }
-
         $thread = new CreateThread(
             $request->input('title'),
             $request->input('body'),
             $request->input('category_id'),
-            $tagIds,
             auth()->user(),
             $images
         );
@@ -102,13 +87,10 @@ class ThreadController extends Controller
     {
         $this->authorize(ThreadPolicy::UPDATE, $thread);
 
-        $oldTags = $thread->tags()->pluck('tags.id')->toArray();
         $selectedCategory = $thread->category;
 
         return view('pages.threads.edit', [
             'thread'            => $thread,
-            'tags'              => Tag::all(),
-            'oldTags'           => $oldTags,
             'categories'        => Category::all(),
             'selectedCategory'  => $selectedCategory,
         ]);
@@ -138,7 +120,6 @@ class ThreadController extends Controller
             $request->input('title'),
             $request->input('body'),
             $request->input('category_id'),
-            explode(',', $request->input('tags', '')),
             $newImages
         ));
 

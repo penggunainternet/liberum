@@ -28,7 +28,6 @@ class ThreadStoreRequest extends FormRequest
             'title'     => ['required', 'max:60', 'min:5'],
             'body'      => ['required', 'max:300', 'min:5'],
             'category_id'  => ['required', 'exists:categories,id'],
-            'tags'      => ['nullable', 'string'],
         ];
     }
 
@@ -50,10 +49,5 @@ class ThreadStoreRequest extends FormRequest
     public function category(): string
     {
         return $this->get('category_id');
-    }
-
-    public function tags(): array
-    {
-        return []; // This will be handled in the controller
     }
 }

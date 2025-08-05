@@ -79,7 +79,7 @@
             <div class="absolute flex space-x-3 top-4 right-4">
                 @can(App\Policies\ReplyPolicy::UPDATE, App\Models\Reply::find($replyId))
                 <x-links.secondary x-on:click="editReply = true; $nextTick(() => focus())" class="cursor-pointer">
-                    {{ __('Edit') }}
+                    Edit
                 </x-links.secondary>
                 @endcan
 
@@ -99,7 +99,7 @@
                               name="replyNewBody"
                               wire:model.lazy="replyNewBody"
                               x-ref="textInput"
-                              placeholder="Edit your reply..."></textarea>
+                              placeholder="Edit balasan Anda..."></textarea>
 
                     {{-- Current Images --}}
                     @php
@@ -164,12 +164,12 @@
                         <button type="button"
                                 class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
                                 x-on:click="editReply = false">
-                            Cancel
+                            Batal
                         </button>
                         <button type="submit"
                                 class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                                 x-on:click="editReply = false">
-                            Save Changes
+                            Simpan Perubahan
                         </button>
                     </div>
                 </div>

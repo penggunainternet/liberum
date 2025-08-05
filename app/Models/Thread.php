@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\HasTags;
 use App\Traits\HasLikes;
 use App\Traits\HasViews;
 use App\Traits\HasMedia;
@@ -21,7 +20,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Thread extends Model implements ReplyAble, SubscriptionAble, Viewable
 {
-    use HasTags;
     use HasLikes;
     use HasAuthor;
     use HasFactory;
@@ -44,7 +42,6 @@ class Thread extends Model implements ReplyAble, SubscriptionAble, Viewable
 
     protected $with = [
         'category',
-        'tagsRelation',
         'likesRelation',
         'authorRelation',
     ];
@@ -86,14 +83,6 @@ class Thread extends Model implements ReplyAble, SubscriptionAble, Viewable
 
     public function delete()
     {
-        $this->removeTags();
         parent::delete();
-    }
-
-    public function scopeForTag(Builder $query, string $tag): Builder
-    {
-        return $query->whereHas('tagsRelation', function ($query) use ($tag) {
-            $query->where('tags.slug', $tag);
-        });
     }
 }

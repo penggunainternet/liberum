@@ -14,7 +14,6 @@ class CreateThread
     private $title;
     private $body;
     private $category;
-    private $tags;
     private $author;
     private $images;
 
@@ -23,12 +22,11 @@ class CreateThread
      *
      * @return void
      */
-    public function __construct(string $title, string $body, string $category, array $tags, User $author, array $images = [])
+    public function __construct(string $title, string $body, string $category, User $author, array $images = [])
     {
         $this->title = $title;
         $this->body = $body;
         $this->category = $category;
-        $this->tags = $tags;
         $this->author = $author;
         $this->images = $images;
     }
@@ -36,12 +34,14 @@ class CreateThread
 
     public static function fromRequest(ThreadStoreRequest $request): self
     {
+        $images = $request->hasFile('images') ? $request->file('images') : [];
+
         return new static(
             $request->title(),
             $request->body(),
             $request->category(),
-            $request->tags(),
             $request->author(),
+            $images
         );
     }
     /**
@@ -59,7 +59,6 @@ class CreateThread
         ]);
 
         $thread->authoredBy($this->author);
-        $thread->syncTags($this->tags);
         $thread->save();
 
         // Handle image uploads

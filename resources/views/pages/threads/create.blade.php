@@ -52,7 +52,12 @@
                                 {{-- Body --}}
                                 <div>
                                     <x-form.label for="body" value="{{ __('Deskripsi') }}" />
-                                    <x-trix name="body" styling="shadow-inner bg-gray-100 h-56" />
+                                    <textarea
+                                        id="body"
+                                        name="body"
+                                        rows="8"
+                                        class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                                        placeholder="Tulis deskripsi thread Anda di sini...">{{ old('body') }}</textarea>
                                     <x-form.error for="body" />
                                 </div>
 
@@ -76,14 +81,6 @@
 
                                     {{-- Image Preview --}}
                                     <div id="imagePreview" class="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4" style="display: none;"></div>
-                                </div>
-
-                                {{-- Tags --}}
-                                <div>
-                                    <x-form.label for="tags" value="Tags (Opsional)" />
-                                    <x-form.input id="tags" class="block w-full mt-1" type="text" name="tags" :value="old('tags')" placeholder="laravel, php, web development" />
-                                    <p class="mt-1 text-xs text-gray-500">Pisahkan dengan koma untuk multiple tags</p>
-                                    <x-form.error for="tags" />
                                 </div>
 
                                 {{-- Button --}}

@@ -1,5 +1,5 @@
 <div>
     <x-links.danger class="cursor-pointer" wire:click="deleteReply">
-        {{ __('Delete') }}
+        Hapus
     </x-links.danger>
 </div>

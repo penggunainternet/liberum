@@ -41,7 +41,7 @@
                 @endif
 
                 <x-buttons.primary class="ml-4">
-                    {{ __('Log in') }}
+                    Masuk
                 </x-buttons.primary>
             </div>
         </form>
@@ -52,6 +52,6 @@
     </x-logos.avatar>
 
 
-    
-    
+
+
 </x-base-layout>

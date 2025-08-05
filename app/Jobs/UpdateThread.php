@@ -27,7 +27,7 @@ class UpdateThread implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Thread $thread, string $title = null, string $body = null, string $categoryId = null, array $tags = [], array $images = [])
+    public function __construct(Thread $thread, string $title = null, string $body = null, string $categoryId = null, array $images = [])
     {
         $this->thread = $thread;
         $this->images = $images;
@@ -37,7 +37,6 @@ class UpdateThread implements ShouldQueue
         if ($body !== null) $attributes['body'] = Purifier::clean($body);
         if ($categoryId !== null) $attributes['category_id'] = $categoryId;
         if ($title !== null) $attributes['slug'] = Str::slug($title);
-        if (!empty($tags)) $attributes['tags'] = array_filter($tags);
 
         $this->attributes = $attributes;
     }
@@ -45,13 +44,12 @@ class UpdateThread implements ShouldQueue
     public static function fromRequest(Thread $thread, ThreadStoreRequest $request): self
     {
         $images = $request->hasFile('images') ? $request->file('images') : [];
-        
+
         return new static(
             $thread,
             $request->title(),
             $request->body(),
             $request->category(),
-            $request->tags(),
             $images
         );
     }
@@ -64,10 +62,6 @@ class UpdateThread implements ShouldQueue
     public function handle(): Thread
     {
         $this->thread->update($this->attributes);
-
-        if (Arr::has($this->attributes, 'tags')) {
-            $this->thread->syncTags($this->attributes['tags']);
-        }
 
         // Handle new image uploads
         if (!empty($this->images)) {

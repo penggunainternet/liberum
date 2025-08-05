@@ -43,7 +43,7 @@ class PanduanForumSeeder extends Seeder
 <li>Berikan pendapat yang jujur dan objektif</li>
 <li>Sertakan quote menarik dari buku</li>
 <li>Upload foto cover buku</li>
-<li>Gunakan tag yang sesuai genre</li>
+<li>Pilih kategori yang sesuai genre</li>
 <li>Bandingkan dengan karya penulis lain jika perlu</li>
 </ul>
 
