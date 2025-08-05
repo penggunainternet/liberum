@@ -3,6 +3,17 @@
 use Illuminate\Support\Facades\Route;
 use Intervention\Image\Facades\Image;
 
+// Test route for lazy loading
+Route::get('/lazy-test', function () {
+    return view('test.lazy-loading');
+})->name('lazy.test');
+
+// Test route untuk thumbnail
+Route::get('/thumbnail-test', function () {
+    $threads = \App\Models\Thread::with(['media', 'images'])->whereHas('media')->take(3)->get();
+    return view('test.thumbnail-test', compact('threads'));
+})->name('thumbnail.test');
+
 // Test route for image processing
 Route::get('/test-image', function() {
     try {

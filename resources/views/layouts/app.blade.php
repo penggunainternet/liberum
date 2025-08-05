@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/lazy-loading.css') }}">
 
     @livewireStyles
 
@@ -64,5 +65,8 @@
     @stack('modals')
 
     @livewireScripts
+    
+    <!-- Lazy Loading Script -->
+    <script src="{{ asset('js/lazy-loading.js') }}"></script>
 </body>
 </html>

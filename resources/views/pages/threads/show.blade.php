@@ -69,10 +69,13 @@
                                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                         @foreach($displayImages as $index => $image)
                                             <div class="relative group cursor-pointer" onclick="openGallery({{ $index }})">
-                                                <img src="{{ $image->url }}"
-                                                     alt="{{ $image->original_filename }}"
-                                                     class="w-full h-32 object-cover rounded-lg border border-gray-200 hover:border-yellow-400 transition-colors"
-                                                     loading="lazy">
+                                                <x-lazy-image
+                                                    src="{{ $image->url }}"
+                                                    alt="{{ $image->original_filename }}"
+                                                    class="w-full h-32 object-cover rounded-lg border border-gray-200 hover:border-yellow-400 transition-colors"
+                                                    loadingClass="animate-pulse bg-gray-200 rounded-lg"
+                                                    placeholder="true"
+                                                />
                                                 <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-opacity rounded-lg flex items-center justify-center">
                                                     <div class="opacity-0 group-hover:opacity-100 transition-opacity text-white text-center">
                                                         <svg class="w-8 h-8 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -206,10 +209,14 @@
                 @if($displayImages->count() > 0)
                     @foreach($displayImages as $index => $image)
                         <div class="flex-shrink-0">
-                            <img src="{{ $image->url }}"
-                                 alt="{{ $image->original_filename }}"
-                                 onclick="goToImage({{ $index }})"
-                                 class="gallery-thumbnail w-16 h-16 object-cover rounded cursor-pointer border-2 border-transparent hover:border-white transition-colors">
+                            <x-lazy-image
+                                src="{{ $image->url }}"
+                                alt="{{ $image->original_filename }}"
+                                onclick="goToImage({{ $index }})"
+                                class="gallery-thumbnail w-16 h-16 object-cover rounded cursor-pointer border-2 border-transparent hover:border-white transition-colors"
+                                loadingClass="animate-pulse bg-gray-600 rounded"
+                                placeholder="true"
+                            />
                         </div>
                     @endforeach
                 @endif

@@ -18,6 +18,9 @@
 
     <livewire:scripts />
     @bukScripts(true)
+    
+    <!-- Lazy Loading Script -->
+    <script src="{{ asset('js/lazy-loading.js') }}"></script>
 </body>
 
 </html>

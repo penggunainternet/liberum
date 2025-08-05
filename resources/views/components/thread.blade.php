@@ -35,9 +35,12 @@
                         <div class="flex space-x-2 overflow-x-auto pb-2">
                             @foreach($threadImages->take(4) as $image)
                                 <div class="flex-shrink-0">
-                                    <img src="{{ $image->thumbnail_url }}"
-                                         alt="{{ $image->original_filename }}"
-                                         class="w-16 h-16 object-cover rounded border border-gray-200 hover:opacity-80 hover:border-blue-300 transition-all cursor-pointer">
+                                    <x-lazy-image
+                                        src="{{ $image->thumbnail_url }}"
+                                        alt="{{ $image->original_filename }}"
+                                        class="w-16 h-16 object-cover rounded border border-gray-200 hover:opacity-80 hover:border-blue-300 transition-all cursor-pointer"
+                                        :placeholder="true"
+                                    />
                                 </div>
                             @endforeach
                             @if($threadImages->count() > 4)

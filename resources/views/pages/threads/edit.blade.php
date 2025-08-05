@@ -78,9 +78,13 @@
                                         <div class="mt-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="currentImages">
                                             @foreach($thread->images as $image)
                                                 <div class="relative group" id="image-{{ $image->id }}">
-                                                    <img src="{{ $image->url }}"
-                                                         alt="{{ $image->original_filename }}"
-                                                         class="w-full h-32 object-cover rounded-lg border border-gray-200">
+                                                    <x-lazy-image
+                                                        src="{{ $image->url }}"
+                                                        alt="{{ $image->original_filename }}"
+                                                        class="w-full h-32 object-cover rounded-lg border border-gray-200"
+                                                        loadingClass="animate-pulse bg-gray-200 rounded-lg"
+                                                        placeholder="true"
+                                                    />
                                                     <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity rounded-lg flex items-center justify-center">
                                                         <button type="button"
                                                                 onclick="removeExistingImage({{ $image->id }})"

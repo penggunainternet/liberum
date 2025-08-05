@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'verified', 'isAdmin']], function () {
     // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('index');
     Route::group(['prefix' => 'users', 'as' => 'users.'], function () {

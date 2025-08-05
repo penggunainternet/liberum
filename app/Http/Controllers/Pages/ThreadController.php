@@ -27,7 +27,7 @@ class ThreadController extends Controller
 {
     public function __construct()
     {
-        return $this->middleware([Authenticate::class, EnsureEmailIsVerified::class])->except(['index', 'show']);
+        $this->middleware([Authenticate::class, EnsureEmailIsVerified::class])->except(['index', 'show']);
     }
 
     public function index()
