@@ -50,7 +50,7 @@
         </div>
         @endif
 
-        
+
 
         {{-- Threads --}}
         <div>
@@ -58,9 +58,9 @@
                 {{ __('Postingan') }}
             </x-sidenav.title>
             <div>
-                <x-sidenav.link href="{{ route('threads.index') }}" :active="request()->routeIs('threads.index')">
-                    <x-heroicon-o-home class="w-4 ml-2 mr-3" style="color:#FC9B5C;"/>
-                    <span>{{ __('Beranda') }}</span>
+                <x-sidenav.link href="{{ route('dashboard.posts.index') }}" :active="request()->routeIs('dashboard.posts.index')">
+                    <x-heroicon-o-document-text class="w-4 ml-2 mr-3" style="color:#FC9B5C;"/>
+                    <span>{{ __('Daftar Postingan') }}</span>
                 </x-sidenav.link>
             </div>
         </div>

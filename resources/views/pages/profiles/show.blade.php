@@ -1,5 +1,18 @@
 <x-guest-layout>
-    <main class="grid grid-cols-4 gap-8 mt-8 wrapper">
+    @push('styles')
+        <style>
+            .post-card {
+                transition: all 0.2s ease-in-out;
+            }
+
+            .post-card:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+        </style>
+    @endpush
+
+    <main class="grid grid-cols-4 gap-6 mt-8 wrapper">
 
         <aside class="flex flex-col items-center h-full p-4 space-y-4  rounded-lg">
 
@@ -7,14 +20,14 @@
                 <x-logos.bg class="rounded-t-lg h-28 w-full mb-4 "/>
                 <div class="flex flex-col items-center justify-center p-4 -mt-16">
                     <a href="#" class="block relative">
-                        
+
                         <a href="{{ route('profile', $user) }}" class="flex flex-col items-center text-sm transition border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300">
                             <img class="object-cover w-16 h-16 rounded-full" src="{{ $user->profile_photo_url }}" alt="{{ $user->name() }}" />
                             <span class="flex text-gray-800 dark:text-white text-xl font-medium mt-2">{{ $user->name() }} </span>
                         </a>
                     </a>
-                   
-                   
+
+
                     <p class="text-xs p-2 bg-green-500 text-white px-4 mt-3 rounded-full">
                         {{ $user->rank() }}
                     </p>
@@ -39,7 +52,7 @@
                                 </span>
                             </p>
                         </div>
-                        
+
                     </div>
                     @auth
             @unless (auth()->user()->is($user))
@@ -64,63 +77,104 @@
                 @endauth
                 </div>
             </div>
-           
+
         </aside>
 
         <section class="flex flex-col col-span-3 gap-y-4">
             <x-alerts.main />
 
-            <span class="w-full p-2 mt-4 font-bold text-blue-500 bg-white rounded shadow">
-                Post Terbaru
-            </span>
+            <!-- Profile Information -->
+            <div class="bg-white shadow rounded-lg p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-4">Tentang {{ $user->name() }}</h2>
 
-            @foreach($user->latestThreads() as $thread)
-            <article class="p-5 bg-white shadow rounded-lg">
-                <div class="relative grid grid-cols-8">
-                    {{-- Thread --}}
-                    <div class="relative col-span-7 space-y-6 ">
-                        <div class="space-y-3">
-                            <h2 class="text-xl tracking-wide hover:text-blue-400">
-                                {{ $thread->title() }}
-                            </h2>
-                            <div class="text-gray-500">
-                                {!! $thread->body() !!}
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-500">Statistik Aktivitas</h3>
+                            <div class="mt-2 space-y-2">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Total Postingan:</span>
+                                    <span class="font-medium">{{ $user->countThreads() }}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Total Replies:</span>
+                                    <span class="font-medium">{{ $user->countReplies() }}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Email:</span>
+                                    <span class="font-medium">{{ $user->email ?? 'Tidak tersedia' }}</span>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="flex justify-between">
-
-                            {{-- Likes --}}
-                            <div class="flex space-x-5 text-gray-500">
-                                <livewire:like-thread :thread="$thread" />
-                            </div>
-
-                            {{-- Date Posted --}}
-                            <div class="flex items-center text-xs text-gray-500">
-                                <x-heroicon-o-clock class="w-4 h-4 mr-1" />
-                                Diposting: {{ $thread->created_at->diffForHumans() }}
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-500">Rank</h3>
+                            <div class="mt-2">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                    {{ $user->rank() }}
+                                </span>
                             </div>
                         </div>
-
-
                     </div>
-                    {{-- Edit Button --}}
-                    <div class="absolute top-0 right-2">
-                        <div class="flex space-x-2">
-                            @can(App\Policies\ThreadPolicy::UPDATE, $thread)
-                            <x-links.secondary href="{{ route('threads.edit', $thread->slug()) }}">
-                                Edit
-                            </x-links.secondary>
-                            @endcan
 
-                            @can(App\Policies\ThreadPolicy::DELETE, $thread)
-                            <livewire:thread.delete :thread="$thread" :key="$thread->id()" />
-                            @endcan
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-sm font-medium text-gray-500">Informasi Akun</h3>
+                            <div class="mt-2 space-y-2">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Bergabung:</span>
+                                    <span class="font-medium">{{ $user->createdAt() }}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Pengikut:</span>
+                                    <span class="font-medium">{{ count($user->followers()) }}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">Mengikuti:</span>
+                                    <span class="font-medium">{{ count($user->follows) }}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </article>
-            @endforeach
+            </div>
+
+            <!-- Recent Activity -->
+            @if($user->countThreads() > 0)
+            <div class="bg-white shadow rounded-lg p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-4">Aktivitas Terbaru</h2>
+                <div class="space-y-4">
+                    @foreach($user->latestThreads(3) as $thread)
+                    <div class="border-l-4 border-blue-500 pl-4 py-2">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm text-gray-600">Membuat postingan baru</p>
+                                <a href="{{ route('threads.show', [$thread->category->slug(), $thread->slug()]) }}"
+                                   class="text-blue-600 hover:text-blue-800 font-medium">
+                                    {{ $thread->title() }}
+                                </a>
+                                <p class="text-xs text-gray-500 mt-1">
+                                    di kategori {{ $thread->category->name() }}
+                                </p>
+                            </div>
+                            <div class="text-xs text-gray-500">
+                                {{ $thread->created_at->diffForHumans() }}
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+
+                    @if($user->countThreads() > 3)
+                    <div class="pt-4 border-t border-gray-200">
+                        <a href="{{ route('profile', $user) }}?tab=all-posts"
+                           class="text-blue-600 hover:text-blue-800 font-medium text-sm">
+                            Lihat semua aktivitas →
+                        </a>
+                    </div>
+                    @endif
+                </div>
+            </div>
+            @endif
         </section>
     </main>
 </x-guest-layout>

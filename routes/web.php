@@ -8,6 +8,7 @@ use App\Http\Controllers\Pages\FollowController;
 use App\Http\Controllers\Pages\ThreadController;
 use App\Http\Controllers\Pages\ProfileController;
 use App\Http\Controllers\Dashboard\NotificationController;
+use App\Http\Controllers\Dashboard\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,13 +57,21 @@ Route::group(['prefix' => 'replies', 'as' => 'replies.'], function () {
     Route::get('reply/{id}/{type}', [ReplyController::class, 'redirect'])->name('replyAble');
 });
 
-Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
+Route::group(['prefix' => 'dashboard', 'as' => 'dashboard.', 'middleware' => ['auth:sanctum', 'verified']], function () {
     /* Name: Notifications
      * Url: /dashboard/notifications*
      * Route: dashboard.notifications*
      */
     Route::group(['prefix' => 'notifications', 'as' => 'notifications.'], function () {
         Route::get('/', [NotificationController::class, 'index'])->name('index');
+    });
+
+    /* Name: Posts
+     * Url: /dashboard/posts*
+     * Route: dashboard.posts*
+     */
+    Route::group(['prefix' => 'posts', 'as' => 'posts.'], function () {
+        Route::get('/', [PostController::class, 'index'])->name('index');
     });
 });
 

@@ -129,7 +129,7 @@ class User extends Authenticatable implements MustVerifyEmail, PointAble
 
     public function latestThreads(int $amount = 5)
     {
-        return $this->threadsRelation()->latest()->limit($amount)->get();
+        return $this->threadsRelation()->with('category')->latest()->limit($amount)->get();
     }
 
     public function deleteThreads()

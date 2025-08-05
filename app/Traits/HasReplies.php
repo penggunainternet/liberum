@@ -41,4 +41,9 @@ trait HasReplies
 
         return $this->createdAt()->lt($threeMonthsAgo);
     }
+
+    public function repliesCount(): int
+    {
+        return $this->repliesRelation()->count();
+    }
 }

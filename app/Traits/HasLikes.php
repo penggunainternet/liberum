@@ -44,4 +44,9 @@ trait HasLikes
     {
         return $this->likesRelation()->where('user_id', $user->id())->exists();
     }
+
+    public function likesCount(): int
+    {
+        return $this->likesRelation()->count();
+    }
 }
