@@ -65,24 +65,7 @@
             </div>
         </div>
 
-        {{-- Profile --}}
-        <div>
-            <x-sidenav.title>
-                {{ __('Profil') }}
-            </x-sidenav.title>
-            <div>
-                <x-sidenav.link href="{{ route('profile', auth()->user()) }}">
-                    <x-heroicon-o-user class="w-4 ml-2 mr-3" style="color:#FC9B5C;"/>
-                    <span>{{ __('Lihat Profil Public') }}</span>
-                </x-sidenav.link>
-            </div>
-            <div>
-                <x-sidenav.link href="{{ route('profile.show') }}">
-                    <x-heroicon-o-cog class="w-4 ml-2 mr-3" style="color:#FC9B5C;"/>
-                    <span>{{ __('Pengaturan Profil') }}</span>
-                </x-sidenav.link>
-            </div>
-        </div>
+
 
         {{-- Threads --}}
         <div>
