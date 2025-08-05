@@ -28,7 +28,10 @@
 
                 <!-- Current Profile Photo -->
                 <div class="mt-2" x-show="! photoPreview">
-                    <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}" class="rounded-full h-20 w-20 object-cover">
+                    <img src="{{ $this->user->profile_photo_url }}"
+                         alt="{{ $this->user->name }}"
+                         class="rounded-full h-20 w-20 object-cover"
+                         onerror="this.src='{{ asset('img/default-avatar.svg') }}'; this.alt='Default Avatar'; console.log('Profile photo failed to load, using default avatar');">
                 </div>
 
                 <!-- New Profile Photo Preview -->
@@ -73,7 +76,7 @@
         </x-jet-action-message>
 
         <x-jet-button wire:loading.attr="disabled" wire:target="photo">
-            {{ __('Simpan') }}
+            Simpan
         </x-jet-button>
     </x-slot>
 </x-jet-form-section>

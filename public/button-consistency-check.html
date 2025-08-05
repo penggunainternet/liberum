@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Button Consistency Check</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            .demo-section {
+                border: 2px solid #e5e7eb;
+                border-radius: 8px;
+                padding: 20px;
+                margin: 20px 0;
+                background: #f9fafb;
+            }
+        </style>
+    </head>
+    <body class="bg-gray-100 p-8">
+        <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-6">
+                🔘 Button Consistency Test
+            </h1>
+
+            <div class="demo-section">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">
+                    Jetstream Standard Button (x-jet-button)
+                </h2>
+                <p class="text-sm text-gray-600 mb-4">
+                    Ini adalah warna dan styling standar yang digunakan di
+                    seluruh aplikasi Jetstream
+                </p>
+
+                <!-- Jetstream Standard Button -->
+                <button
+                    type="button"
+                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition"
+                >
+                    Simpan
+                </button>
+
+                <div class="mt-4 p-3 bg-gray-100 rounded-md">
+                    <p class="text-sm">
+                        <strong>Warna:</strong> bg-gray-800 (Abu-abu gelap)
+                    </p>
+                    <p class="text-sm">
+                        <strong>Hover:</strong> bg-gray-700 (Abu-abu sedikit
+                        lebih terang)
+                    </p>
+                    <p class="text-sm">
+                        <strong>Disabled:</strong> opacity-25 (Transparan 25%)
+                    </p>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">
+                    Disabled State
+                </h2>
+                <p class="text-sm text-gray-600 mb-4">
+                    Begini tampilan tombol saat sedang loading/disabled
+                </p>
+
+                <button
+                    type="button"
+                    disabled
+                    class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition"
+                >
+                    Simpan
+                </button>
+
+                <div class="mt-4 p-3 bg-gray-100 rounded-md">
+                    <p class="text-sm">
+                        ✅
+                        <strong
+                            >Konsisten dengan tombol lain di aplikasi</strong
+                        >
+                    </p>
+                    <p class="text-sm">
+                        ✅
+                        <strong>Tidak ada loading state yang kompleks</strong>
+                    </p>
+                    <p class="text-sm">
+                        ✅ <strong>Mengikuti design system Jetstream</strong>
+                    </p>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">
+                    Perbandingan dengan Tombol Lain
+                </h2>
+                <p class="text-sm text-gray-600 mb-4">
+                    Contoh tombol serupa di aplikasi:
+                </p>
+
+                <div class="space-y-3">
+                    <div>
+                        <span class="text-sm font-medium mr-3"
+                            >Update Password:</span
+                        >
+                        <button
+                            type="button"
+                            class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition"
+                        >
+                            Simpan
+                        </button>
+                    </div>
+
+                    <div>
+                        <span class="text-sm font-medium mr-3"
+                            >Logout Sessions:</span
+                        >
+                        <button
+                            type="button"
+                            class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition"
+                        >
+                            Logout
+                        </button>
+                    </div>
+
+                    <div>
+                        <span class="text-sm font-medium mr-3"
+                            >Profile Information:</span
+                        >
+                        <button
+                            type="button"
+                            class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition"
+                        >
+                            Simpan
+                        </button>
+                    </div>
+                </div>
+
+                <div
+                    class="mt-4 p-3 bg-green-50 border border-green-200 rounded-md"
+                >
+                    <p class="text-sm text-green-800">
+                        ✅
+                        <strong
+                            >Semua tombol menggunakan styling yang sama dan
+                            konsisten</strong
+                        >
+                    </p>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">
+                    📋 Changes Made
+                </h2>
+
+                <div class="space-y-3">
+                    <div class="p-3 bg-red-50 border border-red-200 rounded-md">
+                        <p class="text-sm text-red-800">
+                            <strong>SEBELUM:</strong> Custom blue button dengan
+                            loading state kompleks
+                        </p>
+                        <code class="text-xs"
+                            >bg-blue-600 + spinner + "Menyimpan..." text</code
+                        >
+                    </div>
+
+                    <div
+                        class="p-3 bg-green-50 border border-green-200 rounded-md"
+                    >
+                        <p class="text-sm text-green-800">
+                            <strong>SESUDAH:</strong> Standard Jetstream button
+                        </p>
+                        <code class="text-xs"
+                            >&lt;x-jet-button wire:loading.attr="disabled"
+                            wire:target="photo"&gt;Simpan&lt;/x-jet-button&gt;</code
+                        >
+                    </div>
+                </div>
+
+                <div
+                    class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md"
+                >
+                    <p class="text-sm text-blue-800">
+                        <strong>Benefits:</strong>
+                    </p>
+                    <ul
+                        class="text-sm text-blue-700 mt-2 list-disc list-inside"
+                    >
+                        <li>Konsisten dengan design system aplikasi</li>
+                        <li>
+                            Tidak ada kompleksitas loading state yang tidak
+                            perlu
+                        </li>
+                        <li>Mengikuti convention Jetstream/Laravel</li>
+                        <li>Lebih mudah maintenance</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
