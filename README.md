@@ -67,7 +67,7 @@ php artisan storage:link
 
 ```bash
 npm install
-npm run dev
+
 ```
 
 **Setup MailHog untuk testing email (opsional)**
