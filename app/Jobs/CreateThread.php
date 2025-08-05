@@ -53,7 +53,7 @@ class CreateThread
     {
         $thread = new Thread([
             'title'         => $this->title,
-            'slug'          => Str::slug($this->title),
+            'slug'          => $this->generateUniqueSlug($this->title),
             'body'          => Purifier::clean($this->body),
             'category_id'   => $this->category,
         ]);
@@ -69,5 +69,23 @@ class CreateThread
         event(new ThreadWasCreated($thread));
 
         return $thread;
+    }
+
+    /**
+     * Generate unique slug for thread
+     */
+    private function generateUniqueSlug(string $title): string
+    {
+        $baseSlug = Str::slug($title);
+        $slug = $baseSlug;
+        $counter = 1;
+
+        // Check if slug already exists
+        while (Thread::where('slug', $slug)->exists()) {
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
+        }
+
+        return $slug;
     }
 }

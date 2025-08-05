@@ -36,7 +36,7 @@ class UpdateThread implements ShouldQueue
         if ($title !== null) $attributes['title'] = $title;
         if ($body !== null) $attributes['body'] = Purifier::clean($body);
         if ($categoryId !== null) $attributes['category_id'] = $categoryId;
-        if ($title !== null) $attributes['slug'] = Str::slug($title);
+        if ($title !== null) $attributes['slug'] = $this->generateUniqueSlug($title, $thread->id);
 
         $this->attributes = $attributes;
     }
@@ -71,5 +71,25 @@ class UpdateThread implements ShouldQueue
         $this->thread->save();
 
         return $this->thread;
+    }
+
+    /**
+     * Generate unique slug for thread (excluding current thread on update)
+     */
+    private function generateUniqueSlug(string $title, int $excludeId = null): string
+    {
+        $baseSlug = Str::slug($title);
+        $slug = $baseSlug;
+        $counter = 1;
+
+        // Check if slug already exists (exclude current thread for update)
+        while (Thread::where('slug', $slug)->when($excludeId, function ($query) use ($excludeId) {
+            return $query->where('id', '!=', $excludeId);
+        })->exists()) {
+            $slug = $baseSlug . '-' . $counter;
+            $counter++;
+        }
+
+        return $slug;
     }
 }
