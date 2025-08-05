@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="max-w-4xl mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold mb-8">Thumbnail Test Page</h1>
-        
+
         <div class="space-y-8">
             <div>
                 <h2 class="text-xl font-semibold mb-4">Direct Image Tags</h2>

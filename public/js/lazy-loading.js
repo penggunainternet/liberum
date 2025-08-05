@@ -13,7 +13,7 @@ class LazyImageLoader {
     }
 
     init() {
-        if ('IntersectionObserver' in window) {
+        if ("IntersectionObserver" in window) {
             this.setupIntersectionObserver();
         } else {
             this.fallbackLoad();
@@ -26,12 +26,12 @@ class LazyImageLoader {
     setupIntersectionObserver() {
         const options = {
             root: null,
-            rootMargin: '100px 0px', // Start loading 100px before image enters viewport
-            threshold: 0.1
+            rootMargin: "100px 0px", // Start loading 100px before image enters viewport
+            threshold: 0.1,
         };
 
         this.observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+            entries.forEach((entry) => {
                 if (entry.isIntersecting) {
                     this.loadImage(entry.target);
                     this.observer.unobserve(entry.target);
@@ -44,8 +44,8 @@ class LazyImageLoader {
     }
 
     observeImages() {
-        const lazyImages = document.querySelectorAll('[data-lazy-src]');
-        lazyImages.forEach(img => {
+        const lazyImages = document.querySelectorAll("[data-lazy-src]");
+        lazyImages.forEach((img) => {
             this.observer.observe(img);
             this.images.push(img);
         });
@@ -60,7 +60,7 @@ class LazyImageLoader {
 
         // Create new image element to test loading
         const imageLoader = new Image();
-        
+
         imageLoader.onload = () => {
             this.onImageLoad(img, src);
         };
@@ -74,10 +74,10 @@ class LazyImageLoader {
     }
 
     showLoadingState(img) {
-        img.classList.add('lazy-loading');
-        
+        img.classList.add("lazy-loading");
+
         // Add loading animation if not present
-        if (!img.nextElementSibling?.classList.contains('lazy-spinner')) {
+        if (!img.nextElementSibling?.classList.contains("lazy-spinner")) {
             const spinner = this.createSpinner();
             img.parentNode.insertBefore(spinner, img.nextSibling);
         }
@@ -85,33 +85,33 @@ class LazyImageLoader {
 
     onImageLoad(img, src) {
         img.src = src;
-        img.classList.remove('lazy-loading');
-        img.classList.add('lazy-loaded');
-        
+        img.classList.remove("lazy-loading");
+        img.classList.add("lazy-loaded");
+
         // Remove loading spinner
         const spinner = img.nextElementSibling;
-        if (spinner?.classList.contains('lazy-spinner')) {
+        if (spinner?.classList.contains("lazy-spinner")) {
             spinner.remove();
         }
 
         // Add fade-in animation
-        img.style.opacity = '0';
-        img.style.transition = 'opacity 0.3s ease-in-out';
-        
+        img.style.opacity = "0";
+        img.style.transition = "opacity 0.3s ease-in-out";
+
         // Trigger reflow and fade in
         img.offsetHeight;
-        img.style.opacity = '1';
+        img.style.opacity = "1";
 
         this.loadedImages.add(img);
     }
 
     onImageError(img) {
-        img.classList.remove('lazy-loading');
-        img.classList.add('lazy-error');
-        
+        img.classList.remove("lazy-loading");
+        img.classList.add("lazy-error");
+
         // Remove loading spinner
         const spinner = img.nextElementSibling;
-        if (spinner?.classList.contains('lazy-spinner')) {
+        if (spinner?.classList.contains("lazy-spinner")) {
             spinner.remove();
         }
 
@@ -121,8 +121,9 @@ class LazyImageLoader {
     }
 
     createSpinner() {
-        const spinner = document.createElement('div');
-        spinner.className = 'lazy-spinner absolute inset-0 flex items-center justify-center bg-gray-100';
+        const spinner = document.createElement("div");
+        spinner.className =
+            "lazy-spinner absolute inset-0 flex items-center justify-center bg-gray-100";
         spinner.innerHTML = `
             <svg class="animate-spin h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24">
                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -133,8 +134,9 @@ class LazyImageLoader {
     }
 
     showErrorState(img) {
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'lazy-error-state absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-400';
+        const errorDiv = document.createElement("div");
+        errorDiv.className =
+            "lazy-error-state absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-400";
         errorDiv.innerHTML = `
             <div class="text-center">
                 <svg class="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -148,7 +150,7 @@ class LazyImageLoader {
 
     checkInitialViewport() {
         const viewportHeight = window.innerHeight;
-        this.images.forEach(img => {
+        this.images.forEach((img) => {
             const rect = img.getBoundingClientRect();
             if (rect.top < viewportHeight && rect.bottom > 0) {
                 this.loadImage(img);
@@ -161,15 +163,15 @@ class LazyImageLoader {
 
     fallbackLoad() {
         // For browsers without IntersectionObserver support
-        const lazyImages = document.querySelectorAll('[data-lazy-src]');
-        lazyImages.forEach(img => {
+        const lazyImages = document.querySelectorAll("[data-lazy-src]");
+        lazyImages.forEach((img) => {
             this.loadImage(img);
         });
     }
 
     // Public method to manually trigger loading
     loadAll() {
-        this.images.forEach(img => {
+        this.images.forEach((img) => {
             if (!this.loadedImages.has(img) && !this.errorImages.has(img)) {
                 this.loadImage(img);
             }
@@ -178,12 +180,12 @@ class LazyImageLoader {
 
     // Public method to reload failed images
     retryErrors() {
-        this.errorImages.forEach(img => {
+        this.errorImages.forEach((img) => {
             const errorState = img.nextElementSibling;
-            if (errorState?.classList.contains('lazy-error-state')) {
+            if (errorState?.classList.contains("lazy-error-state")) {
                 errorState.remove();
             }
-            img.classList.remove('lazy-error');
+            img.classList.remove("lazy-error");
             this.loadImage(img);
         });
         this.errorImages.clear();
@@ -195,30 +197,33 @@ class LazyImageLoader {
             total: this.images.length,
             loaded: this.loadedImages.size,
             errors: this.errorImages.size,
-            pending: this.images.length - this.loadedImages.size - this.errorImages.size
+            pending:
+                this.images.length -
+                this.loadedImages.size -
+                this.errorImages.size,
         };
     }
 }
 
 // Auto-initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     window.lazyLoader = new LazyImageLoader();
 });
 
 // Reinitialize on Livewire updates
-document.addEventListener('livewire:load', () => {
+document.addEventListener("livewire:load", () => {
     if (window.lazyLoader) {
         window.lazyLoader.observeImages();
     }
 });
 
 // Helper function for manual lazy loading setup
-window.initLazyImage = function(img, src, placeholder = null) {
+window.initLazyImage = function (img, src, placeholder = null) {
     img.dataset.lazySrc = src;
     if (placeholder) {
         img.dataset.placeholder = placeholder;
     }
-    
+
     // Add to existing observer if available
     if (window.lazyLoader && window.lazyLoader.observer) {
         window.lazyLoader.observer.observe(img);

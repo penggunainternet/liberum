@@ -95,7 +95,7 @@
 
 /* Prevent layout shift */
 .lazy-image-wrapper::before {
-    content: '';
+    content: "";
     display: block;
     padding-bottom: var(--aspect-ratio, 56.25%); /* Default 16:9 */
 }
@@ -125,12 +125,12 @@
 /* Loading state improvements */
 .lazy-loading .lazy-placeholder {
     background: linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.4) 50%,
-        rgba(255, 255, 255, 0) 100%
-    ),
-    #f1f5f9;
+            90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.4) 50%,
+            rgba(255, 255, 255, 0) 100%
+        ),
+        #f1f5f9;
     background-size: 200% 100%;
     animation: shimmer 1.2s ease-in-out infinite;
 }
@@ -138,24 +138,29 @@
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
     .lazy-placeholder {
-        background: linear-gradient(90deg, #374151 0%, #4b5563 50%, #374151 100%);
+        background: linear-gradient(
+            90deg,
+            #374151 0%,
+            #4b5563 50%,
+            #374151 100%
+        );
         background-size: 200% 100%;
     }
-    
+
     .lazy-error-state {
         background-color: #374151;
         border-color: #4b5563;
         color: #9ca3af;
     }
-    
+
     .lazy-loading .lazy-placeholder {
         background: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.1) 50%,
-            rgba(255, 255, 255, 0) 100%
-        ),
-        #374151;
+                90deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0) 100%
+            ),
+            #374151;
         background-size: 200% 100%;
     }
 }
@@ -170,11 +175,11 @@
     .lazy-image {
         transition: none;
     }
-    
+
     .lazy-placeholder {
         animation: none;
     }
-    
+
     .lazy-image.lazy-loaded {
         animation: none;
     }
@@ -186,7 +191,7 @@
         background: #000;
         color: #fff;
     }
-    
+
     .lazy-error-state {
         background: #fff;
         border: 2px solid #000;

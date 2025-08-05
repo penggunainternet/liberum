@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="max-w-4xl mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold mb-8">Lazy Loading Test Page</h1>
-        
+
         <div class="mb-8">
             <h2 class="text-xl font-semibold mb-4">Loading Stats</h2>
             <div id="loadingStats" class="bg-blue-50 p-4 rounded">
@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="mt-4 space-x-2">
                 <button onclick="loadAll()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                     Load All Images

@@ -65,7 +65,7 @@
     @stack('modals')
 
     @livewireScripts
-    
+
     <!-- Lazy Loading Script -->
     <script src="{{ asset('js/lazy-loading.js') }}"></script>
 </body>
