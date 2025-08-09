@@ -9,6 +9,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'v
     Route::get('/', [DashboardController::class, 'index'])->name('index');
     Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
         Route::get('active', [DashboardController::class, 'getActiveUser'])->name('active');
+        Route::get('{user}/promote', [DashboardController::class, 'promoteUser'])->name('promote');
+        Route::get('{user}/demote', [DashboardController::class, 'demoteUser'])->name('demote');
+        Route::get('{user}/delete', [DashboardController::class, 'deleteUser'])->name('delete');
     });
 
     /* Name: Categories
