@@ -15,12 +15,13 @@ class ThreadsTableSeeder extends Seeder
      */
     public function run()
     {
-        Thread::factory()->count(5)->create(['author_id' => 2]);
-        Thread::factory()->count(5)->create(['author_id' => 3]);
+        // Thread seeding disabled - threads will be created manually by users
+        // Thread::factory()->count(5)->create(['author_id' => 2]);
+        // Thread::factory()->count(5)->create(['author_id' => 3]);
 
-        Reply::factory()->create(['author_id' => 2, 'replyable_id' => 1]);
-        Reply::factory()->create(['author_id' => 3, 'replyable_id' => 1]);
-        Reply::factory()->create(['author_id' => 2, 'replyable_id' => 2]);
-        Reply::factory()->create(['author_id' => 3, 'replyable_id' => 2]);
+        // Reply::factory()->create(['author_id' => 2, 'replyable_id' => 1]);
+        // Reply::factory()->create(['author_id' => 3, 'replyable_id' => 1]);
+        // Reply::factory()->create(['author_id' => 2, 'replyable_id' => 2]);
+        // Reply::factory()->create(['author_id' => 3, 'replyable_id' => 2]);
     }
 }
