@@ -7,13 +7,6 @@
     </x-slot>
 
     <section class="px-6">
-        {{-- Flash Messages --}}
-        @if(session('success'))
-            <div class="mb-4 px-4 py-3 text-green-700 bg-green-100 border border-green-200 rounded">
-                {{ session('success') }}
-            </div>
-        @endif
-
         @if($threads->count() > 0)
             <div class="space-y-4">
                 @foreach($threads as $thread)

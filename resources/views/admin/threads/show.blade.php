@@ -14,13 +14,6 @@
     </x-slot>
 
     <section class="px-6">
-        {{-- Flash Messages --}}
-        @if(session('success'))
-            <div class="mb-4 px-4 py-3 text-green-700 bg-green-100 border border-green-200 rounded">
-                {{ session('success') }}
-            </div>
-        @endif
-
         <div class="bg-white border rounded-lg shadow-sm overflow-hidden">
             {{-- Thread Header --}}
             <div class="p-6 border-b bg-gray-50">
