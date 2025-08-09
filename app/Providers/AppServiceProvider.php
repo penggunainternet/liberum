@@ -42,7 +42,16 @@ class AppServiceProvider extends ServiceProvider
         });
 
         view()->composer('components.partials.sidenav', function ($view) {
-            $view->with('threads', Thread::all());
+            $view->with('threads', Thread::approved()->get());
+        });
+
+        // Share thread counts with admin navigation
+        view()->composer('components.admin-navigation', function ($view) {
+            $view->with([
+                'pendingCount' => Thread::where('status', 'pending')->count(),
+                'approvedCount' => Thread::where('status', 'approved')->count(),
+                'rejectedCount' => Thread::where('status', 'rejected')->count(),
+            ]);
         });
     }
 

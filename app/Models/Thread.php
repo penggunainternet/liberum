@@ -38,6 +38,9 @@ class Thread extends Model implements ReplyAble, SubscriptionAble, Viewable
         'slug',
         'category_id',
         'author_id',
+        'status',
+        'approved_at',
+        'approved_by',
     ];
 
     protected $with = [
@@ -69,6 +72,43 @@ class Thread extends Model implements ReplyAble, SubscriptionAble, Viewable
     public function title(): string
     {
         return $this->title;
+    }
+
+    public function approvedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+
+    // Scopes
+    public function scopeApproved(Builder $query): Builder
+    {
+        return $query->where('status', 'approved');
+    }
+
+    public function scopePending(Builder $query): Builder
+    {
+        return $query->where('status', 'pending');
+    }
+
+    public function scopeRejected(Builder $query): Builder
+    {
+        return $query->where('status', 'rejected');
+    }
+
+    // Helper methods
+    public function isApproved(): bool
+    {
+        return $this->status === 'approved';
+    }
+
+    public function isPending(): bool
+    {
+        return $this->status === 'pending';
+    }
+
+    public function isRejected(): bool
+    {
+        return $this->status === 'rejected';
     }
 
     public function body(): string

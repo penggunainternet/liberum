@@ -51,11 +51,19 @@ class CreateThread
      */
     public function handle(): Thread
     {
+        // Determine thread status based on user role
+        $status = $this->author->isAdmin() ? 'approved' : 'pending';
+        $approvedAt = $this->author->isAdmin() ? now() : null;
+        $approvedBy = $this->author->isAdmin() ? $this->author->id : null;
+
         $thread = new Thread([
             'title'         => $this->title,
             'slug'          => $this->generateUniqueSlug($this->title),
             'body'          => Purifier::clean($this->body),
             'category_id'   => $this->category,
+            'status'        => $status,
+            'approved_at'   => $approvedAt,
+            'approved_by'   => $approvedBy,
         ]);
 
         $thread->authoredBy($this->author);

@@ -22,12 +22,19 @@ class ThreadFactory extends Factory
      */
     public function definition()
     {
+        $authorId = rand(3, 9);
+        $author = User::find($authorId);
+        $isAdmin = $author && $author->isAdmin();
+
         return [
             'title'         => $this->faker->text(30),
             'body'          => $this->faker->paragraph(2, true),
             'slug'          => $this->faker->unique()->slug,
-            'author_id'     => rand(3, 9),
+            'author_id'     => $authorId,
             'category_id'   => rand(1, 7),
+            'status'        => $isAdmin ? 'approved' : 'pending',
+            'approved_at'   => $isAdmin ? now() : null,
+            'approved_by'   => $isAdmin ? $authorId : null,
         ];
     }
 }

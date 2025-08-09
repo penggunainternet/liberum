@@ -63,6 +63,21 @@
                     <span>{{ __('Daftar Postingan') }}</span>
                 </x-sidenav.link>
             </div>
+
+            @if(auth()->user()->isAdmin())
+            <div>
+                <x-sidenav.link href="{{ route('admin.threads.pending') }}" :active="request()->routeIs('admin.threads.*')">
+                    <x-heroicon-o-clipboard-list class="w-4 ml-2 mr-3" style="color:#FC9B5C;"/>
+                    <span>{{ __('Kelola Thread') }}</span>
+                    @php
+                        $pendingCount = App\Models\Thread::pending()->count();
+                    @endphp
+                    @if($pendingCount > 0)
+                        <span class="ml-2 px-2 py-1 text-xs bg-red-500 text-white rounded-full">{{ $pendingCount }}</span>
+                    @endif
+                </x-sidenav.link>
+            </div>
+            @endif
         </div>
 
 

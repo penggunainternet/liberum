@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-admin-layout>
 
     {{-- Header --}}
     <x-slot name="header">
@@ -115,4 +115,4 @@
             }
         }
     </script>
-</x-app-layout>
+</x-admin-layout>

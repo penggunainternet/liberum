@@ -33,7 +33,8 @@ class ThreadController extends Controller
     public function index()
     {
         return view('pages.threads.index', [
-            'threads' => Thread::with(['media', 'images'])
+            'threads' => Thread::approved()
+                             ->with(['media', 'images'])
                              ->orderBy('id', 'desc')
                              ->paginate(10),
         ]);
@@ -60,7 +61,12 @@ class ThreadController extends Controller
 
         $this->dispatchSync($thread);
 
-        return redirect()->route('threads.index')->with('success', 'Thread berhasil dibuat!');
+        // Different message for admin vs regular user
+        $message = auth()->user()->isAdmin()
+            ? 'Thread berhasil dibuat dan langsung dipublikasikan!'
+            : 'Thread berhasil dibuat dan menunggu persetujuan admin.';
+
+        return redirect()->route('threads.index')->with('success', $message);
     }
 
     public function show(Category $category, Thread $thread)
@@ -149,7 +155,8 @@ class ThreadController extends Controller
     public function sortByCategory($slug)
     {
         return view('pages.threads.index', [
-            'threads' => Thread::with(['media', 'images'])
+            'threads' => Thread::approved()
+                             ->with(['media', 'images'])
                              ->whereHas('category', function (Builder $q) use ($slug) {
                                  $q->where('slug', '=', $slug);
                              })
@@ -196,9 +203,12 @@ class ThreadController extends Controller
 
     public function search(Request $request)
     {
-        $threads = Thread::where('title', 'LIKE', '%'.$request->search.'%')
-            ->orWhere('slug', 'LIKE', '%'.$request->search.'%')
-            ->orWhere('body', 'LIKE', '%'.$request->search.'%');
+        $threads = Thread::approved()
+            ->where(function($query) use ($request) {
+                $query->where('title', 'LIKE', '%'.$request->search.'%')
+                      ->orWhere('slug', 'LIKE', '%'.$request->search.'%')
+                      ->orWhere('body', 'LIKE', '%'.$request->search.'%');
+            });
 
         return view('pages.threads.index', [
             'threads'       => $threads->paginate(10),

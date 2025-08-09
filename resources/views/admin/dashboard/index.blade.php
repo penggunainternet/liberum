@@ -1,5 +1,10 @@
-<x-app-layout>
-   
+<x-admin-layout>
+    {{-- Header --}}
+    <x-slot name="header">
+        <h2 class="text-xl font-semibold leading-tight">
+            {{ __('Admin Dashboard') }}
+        </h2>
+    </x-slot>
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -43,9 +48,9 @@
                     </p>
                 </div>
             </div>
-            
+
         </section>
 
         </div>
     </div>
-</x-app-layout>
+</x-admin-layout>
