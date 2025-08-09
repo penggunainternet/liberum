@@ -18,7 +18,7 @@
                                         ✗ Ditolak
                                     </span>
                                     <span class="text-sm text-gray-500">
-                                        Ditolak {{ $thread->updated_at->diffForHumans() }}
+                                        Ditolak {{ method_exists($thread->updated_at, 'diffForHumans') ? $thread->updated_at->diffForHumans() : $thread->updated_at }}
                                         @if($thread->approvedBy)
                                             oleh {{ $thread->approvedBy->name }}
                                         @endif
@@ -34,7 +34,7 @@
                                 <div class="text-sm text-gray-600 mb-3">
                                     <span class="font-medium">Penulis:</span> {{ $thread->author()->name }} |
                                     <span class="font-medium">Kategori:</span> {{ $thread->category->name }} |
-                                    <span class="font-medium">Dibuat:</span> {{ $thread->created_at->format('d M Y H:i') }}
+                                    <span class="font-medium">Dibuat:</span> {{ method_exists($thread->created_at, 'format') ? $thread->created_at->format('d M Y H:i') : $thread->created_at }}
                                 </div>
 
                                 <div class="text-gray-700 mb-4">

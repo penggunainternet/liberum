@@ -49,6 +49,12 @@ class Thread extends Model implements ReplyAble, SubscriptionAble, Viewable
         'authorRelation',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'approved_at' => 'datetime',
+    ];
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);

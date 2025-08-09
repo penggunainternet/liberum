@@ -160,15 +160,17 @@ class ThreadController extends Controller
                              ->whereHas('category', function (Builder $q) use ($slug) {
                                  $q->where('slug', '=', $slug);
                              })
+                             ->orderBy('id', 'desc')
                              ->paginate(10),
         ]);
     }
 
     public function thisWeek()
     {
-        $threads = Thread::leftJoin('views', 'views.viewable_id', '=', 'threads.id')
+        $threads = Thread::approved()
+            ->leftJoin('views', 'views.viewable_id', '=', 'threads.id')
             ->selectRaw('threads.*, COUNT(views.viewable_id) AS view_count')
-            ->whereBetween('created_at', [Carbon::now()->subWeek()->format("Y-m-d H:i:s"), Carbon::now()])
+            ->whereBetween('threads.created_at', [Carbon::now()->subWeek()->format("Y-m-d H:i:s"), Carbon::now()])
             ->groupBy('threads.id')
             ->orderByDesc('view_count');
 
@@ -179,7 +181,8 @@ class ThreadController extends Controller
 
     public function allTime()
     {
-        $threads = Thread::leftJoin('views', 'views.viewable_id', '=', 'threads.id')
+        $threads = Thread::approved()
+            ->leftJoin('views', 'views.viewable_id', '=', 'threads.id')
             ->selectRaw('threads.*, COUNT(views.viewable_id) AS view_count')
             ->groupBy('threads.id')
             ->orderByDesc('view_count');
@@ -191,10 +194,12 @@ class ThreadController extends Controller
 
     public function zeroComment()
     {
-        $threads = Thread::leftJoin('replies', 'replies.replyable_id', '=', 'threads.id')
+        $threads = Thread::approved()
+            ->leftJoin('replies', 'replies.replyable_id', '=', 'threads.id')
             ->selectRaw('threads.*')
             ->groupBy('threads.id')
-            ->whereNull('replies.replyable_id');
+            ->whereNull('replies.replyable_id')
+            ->orderBy('threads.id', 'desc');
 
         return view('pages.threads.index', [
             'threads'       => $threads->paginate(10),
@@ -211,7 +216,7 @@ class ThreadController extends Controller
             });
 
         return view('pages.threads.index', [
-            'threads'       => $threads->paginate(10),
+            'threads'       => $threads->orderBy('id', 'desc')->paginate(10),
         ]);
     }
 }

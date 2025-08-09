@@ -18,7 +18,7 @@
                                         Menunggu Persetujuan
                                     </span>
                                     <span class="text-sm text-gray-500">
-                                        {{ $thread->created_at->diffForHumans() }}
+                                        {{ method_exists($thread->created_at, 'diffForHumans') ? $thread->created_at->diffForHumans() : $thread->created_at }}
                                     </span>
                                 </div>
 

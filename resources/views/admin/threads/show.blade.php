@@ -84,9 +84,9 @@
                         <span class="font-medium">Kategori:</span> {{ $thread->category->name }}
                     </div>
                     <div>
-                        <span class="font-medium">Dibuat:</span> {{ $thread->created_at->format('d M Y H:i') }}<br>
+                        <span class="font-medium">Dibuat:</span> {{ method_exists($thread->created_at, 'format') ? $thread->created_at->format('d M Y H:i') : $thread->created_at }}<br>
                         @if($thread->approved_at)
-                            <span class="font-medium">Disetujui:</span> {{ $thread->approved_at->format('d M Y H:i') }}<br>
+                            <span class="font-medium">Disetujui:</span> {{ method_exists($thread->approved_at, 'format') ? $thread->approved_at->format('d M Y H:i') : $thread->approved_at }}<br>
                         @endif
                         @if($thread->approvedBy)
                             <span class="font-medium">Oleh:</span> {{ $thread->approvedBy->name }}
