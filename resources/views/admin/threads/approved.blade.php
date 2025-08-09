@@ -49,13 +49,9 @@
                             </a>
 
                             <div class="flex space-x-3">
-                                <form action="{{ route('admin.threads.reject', $thread) }}" method="POST" class="inline">
-                                    @csrf
-                                    <button type="submit" onclick="return confirm('Apakah Anda yakin ingin mengubah status menjadi ditolak?')"
-                                            class="px-4 py-2 bg-red-600 text-white text-sm rounded hover:bg-red-700">
-                                        ✗ Tolak
-                                    </button>
-                                </form>
+                                <span class="px-4 py-2 bg-green-100 text-green-800 text-sm rounded font-medium">
+                                    ✓ Disetujui
+                                </span>
                             </div>
                         </div>
                     </div>

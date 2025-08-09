@@ -12,6 +12,10 @@ class ThreadModerationController extends Controller
     {
         $threads = Thread::pending()
             ->with(['authorRelation', 'category'])
+            ->whereHas('authorRelation', function($query) {
+                // Hanya tampilkan thread dari user non-admin
+                $query->where('type', '!=', 3); // type 3 = admin
+            })
             ->latest()
             ->paginate(20);
 
@@ -22,6 +26,10 @@ class ThreadModerationController extends Controller
     {
         $threads = Thread::approved()
             ->with(['authorRelation', 'category', 'approvedBy'])
+            ->whereHas('authorRelation', function($query) {
+                // Hanya tampilkan thread dari user non-admin yang di-approve
+                $query->where('type', '!=', 3); // type 3 = admin
+            })
             ->latest('approved_at')
             ->paginate(20);
 
@@ -32,6 +40,10 @@ class ThreadModerationController extends Controller
     {
         $threads = Thread::rejected()
             ->with(['authorRelation', 'category', 'approvedBy'])
+            ->whereHas('authorRelation', function($query) {
+                // Hanya tampilkan thread dari user non-admin
+                $query->where('type', '!=', 3); // type 3 = admin
+            })
             ->latest('updated_at')
             ->paginate(20);
 

@@ -48,9 +48,18 @@ class AppServiceProvider extends ServiceProvider
         // Share thread counts with admin navigation
         view()->composer('components.admin-navigation', function ($view) {
             $view->with([
-                'pendingCount' => Thread::where('status', 'pending')->count(),
-                'approvedCount' => Thread::where('status', 'approved')->count(),
-                'rejectedCount' => Thread::where('status', 'rejected')->count(),
+                'pendingCount' => Thread::where('status', 'pending')
+                    ->whereHas('authorRelation', function($query) {
+                        $query->where('type', '!=', 3); // exclude admin threads
+                    })->count(),
+                'approvedCount' => Thread::where('status', 'approved')
+                    ->whereHas('authorRelation', function($query) {
+                        $query->where('type', '!=', 3); // exclude admin threads
+                    })->count(),
+                'rejectedCount' => Thread::where('status', 'rejected')
+                    ->whereHas('authorRelation', function($query) {
+                        $query->where('type', '!=', 3); // exclude admin threads
+                    })->count(),
             ]);
         });
     }

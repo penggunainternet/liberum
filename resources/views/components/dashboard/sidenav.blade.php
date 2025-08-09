@@ -70,7 +70,11 @@
                     <x-heroicon-o-clipboard-list class="w-4 ml-2 mr-3" style="color:#FC9B5C;"/>
                     <span>{{ __('Kelola Thread') }}</span>
                     @php
-                        $pendingCount = App\Models\Thread::pending()->count();
+                        $pendingCount = App\Models\Thread::pending()
+                            ->whereHas('authorRelation', function($query) {
+                                $query->where('type', '!=', 3);
+                            })
+                            ->count();
                     @endphp
                     @if($pendingCount > 0)
                         <span class="ml-2 px-2 py-1 text-xs bg-red-500 text-white rounded-full">{{ $pendingCount }}</span>
